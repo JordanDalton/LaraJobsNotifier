@@ -34,6 +34,20 @@ Route::get('/', function () {
         ]);
     }
 
+    $prior       = session()->get('latest');
+    $latest      = $jobs->sortByDesc('published_at')->first();
+    $latest_link = $latest['link'];
+
+    if(session()->has('latest'))
+    {
+        if($latest !== $prior)
+        {
+            Notification::new()->title('New Job')->message($latest['title'])->show();
+        }
+    }
+
+    session()->put('latest', $latest_link);
+
     return view('welcome', [
         'jobs' => $jobs->sortByDesc('published_at')
     ]);
