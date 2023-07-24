@@ -30,6 +30,11 @@ Route::get('/', function () {
         $jobs->push([
             'title' => (string) $job->title,
             'link' => (string) $job->link,
+            'salary' => $job->children('job', true)->salary->__toString(),
+            'location' => $job->children('job', true)->location->__toString(),
+            'type' => $job->children('job', true)->job_type->__toString(),
+            'company' => $job->children('job', true)->company->__toString(),
+            'tags' => $job->children('job', true)->tags->__toString(),
             'published_at' => (string) $job->pubDate,
         ]);
     }
@@ -42,11 +47,12 @@ Route::get('/', function () {
     {
         if($latest !== $prior)
         {
-            Notification::new()->title('New Job')->message($latest['title'])->show();
+            //Notification::new()->title('New Job')->message($latest['title'])->show();
         }
     }
 
     session()->put('latest', $latest_link);
+    /**/
 
     return view('welcome', [
         'jobs' => $jobs->sortByDesc('published_at')

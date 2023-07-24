@@ -33,13 +33,17 @@ class CheckForNewJobs extends Command
         $connector = new LaraJobsConnector();
         $response  = $connector->send(new CheckForJobsRequest);
 
+        Larajobs::truncate();
+
         $data = [
             'title' => (string) $response->xml()->channel->item->title,
             'link' => (string) $response->xml()->channel->item->link,
             'published_at' => (string) $response->xml()->channel->item->pubDate,
         ];
 
-        //Notification::new()->title("test")->message("test")->show();
+        Notification::new()->title("test")->message("test")->show();
+
+        \Log::info('here');
 
         $job = Larajobs::updateOrCreate(['link' => $data['link']], $data);
 
