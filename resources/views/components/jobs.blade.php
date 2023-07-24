@@ -6,7 +6,7 @@
             <h1 class="text-2xl font-bold tracking-tighter">
                 <a class="text-blue-500" href="{{ $job['link'] }}" target="_blank">{{ $job['title'] }}</a>
             </h1>
-            <div class="flex space-x-3">
+            <div class="md:flex md:space-x-3">
                 @if($job['salary'])
                     <div>
                         {{ $job['salary'] }}
@@ -25,7 +25,7 @@
                 $tags = str($job['tags'])->explode(',');
             @endphp
             @if($tags->count())
-            <div class="flex mt-2 space-x-3 text-sm">
+            <div class="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 mt-2 text-sm">
                 @foreach($tags as $tag)
                     <div class="bg-gray-100 px-2 border-r border-white">{{ $tag  }}</div>
                 @endforeach
